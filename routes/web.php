@@ -15,21 +15,37 @@
 # Main homepage visitors see when they visit the site 
 Route::get('/', 'ProfitController@home');
 
-# /showCenters
+# /showCenter
 # Main homepage visitors see when they visit the site 
-Route::get('/showCenter', 'ProfitController@showCenter');
+Route::get('/showCenter', 'DimensionController@showCenter');
 
 # /addCenter
-Route::get('/addCenter', 'ProfitController@addCenter');
-Route::post('/addCenter', 'ProfitController@saveNewCenter');
+Route::get('/addCenter', 'DimensionController@addCenter');
+Route::post('/addCenter', 'DimensionController@saveNewCenter');
 
 # /editCenter
-Route::get('/editCenter/{id}', 'ProfitController@editCenter');
-Route::post('/editCenter', 'ProfitController@saveCenter');
+Route::get('/editCenter/{id}', 'DimensionController@editCenter');
+Route::post('/editCenter', 'DimensionController@saveCenter');
 
 # /deleteCenter
-Route::get('/deleteCenter/{id}', 'ProfitController@confirmDeleteCenter');
-Route::post('/deleteCenter', 'ProfitController@deleteCenter');
+Route::get('/deleteCenter/{id}', 'DimensionController@confirmDeleteCenter');
+Route::post('/deleteCenter', 'DimensionController@deleteCenter');
+
+# /showProduct
+# Main homepage visitors see when they visit the site 
+Route::get('/showProduct', 'DimensionController@showProduct');
+
+# /addProduct
+Route::get('/addProduct', 'DimensionController@addProduct');
+Route::post('/addProduct', 'DimensionController@saveNewProduct');
+
+# /editProduct
+Route::get('/editProduct/{id}', 'DimensionController@editProduct');
+Route::post('/editProduct', 'DimensionController@saveProduct');
+
+# /deleteProduct
+Route::get('/deleteProduct/{id}', 'DimensionController@confirmDeleteProduct');
+Route::post('/deleteProduct', 'DimensionController@deleteProduct');
 
 # /showRules
 Route::get('/showRules', 'ProfitController@showRules');
@@ -38,38 +54,50 @@ Route::get('/showRules', 'ProfitController@showRules');
 Route::get('/editRules', 'ProfitController@editRules');
 
 
-Route::get('/debug', function() {
+// Route::get('/debug', function() {
 
-	echo '<pre>';
+// 	echo '<pre>';
 
-	echo '<h1>Environment</h1>';
-	echo App::environment().'</h1>';
+// 	echo '<h1>Environment</h1>';
+// 	echo App::environment().'</h1>';
 
-	echo '<h1>Debugging?</h1>';
-	if(config('app.debug')) echo "Yes"; else echo "No";
+// 	echo '<h1>Debugging?</h1>';
+// 	if(config('app.debug')) echo "Yes"; else echo "No";
 
-	echo '<h1>Database Config</h1>';
-    	echo 'DB defaultStringLength: '.Illuminate\Database\Schema\Builder::$defaultStringLength;
-    	/*
-	The following commented out line will print your MySQL credentials.
-	Uncomment this line only if you're facing difficulties connecting to the database and you
-        need to confirm your credentials.
-        When you're done debugging, comment it back out so you don't accidentally leave it
-        running on your production server, making your credentials public.
-        */
-	//print_r(config('database.connections.mysql'));
+// 	echo '<h1>Database Config</h1>';
+//     	echo 'DB defaultStringLength: '.Illuminate\Database\Schema\Builder::$defaultStringLength;
+//     	/*
+// 	The following commented out line will print your MySQL credentials.
+// 	Uncomment this line only if you're facing difficulties connecting to the database and you
+//         need to confirm your credentials.
+//         When you're done debugging, comment it back out so you don't accidentally leave it
+//         running on your production server, making your credentials public.
+//         */
+// 	//print_r(config('database.connections.mysql'));
 
-	echo '<h1>Test Database Connection</h1>';
-	try {
-		$results = DB::select('SHOW DATABASES;');
-		echo '<strong style="background-color:green; padding:5px;">Connection confirmed</strong>';
-		echo "<br><br>Your Databases:<br><br>";
-		print_r($results);
-	}
-	catch (Exception $e) {
-		echo '<strong style="background-color:crimson; padding:5px;">Caught exception: ', $e->getMessage(), "</strong>\n";
-	}
+// 	echo '<h1>Test Database Connection</h1>';
+// 	try {
+// 		$results = DB::select('SHOW DATABASES;');
+// 		echo '<strong style="background-color:green; padding:5px;">Connection confirmed</strong>';
+// 		echo "<br><br>Your Databases:<br><br>";
+// 		print_r($results);
+// 	}
+// 	catch (Exception $e) {
+// 		echo '<strong style="background-color:crimson; padding:5px;">Caught exception: ', $e->getMessage(), "</strong>\n";
+// 	}
 
-	echo '</pre>';
+// 	echo '</pre>';
 
-});
+// });
+
+if(App::environment('local')) {
+
+    Route::get('/drop', function() {
+
+        DB::statement('DROP database profitpoint');
+        DB::statement('CREATE database profitpoint');
+
+        return 'Dropped profitpoint; created profitpoint.';
+    });
+
+};

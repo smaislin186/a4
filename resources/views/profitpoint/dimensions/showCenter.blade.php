@@ -26,8 +26,8 @@
                         <td>{{ $center->code }}</td>
                         <td>{{ $center->name }}</td>
                         <td>{{ $center->center_type->type }}</td>
-                        <td><a href='/editCenter/{{ $center->id }}' class='bookAction'>Edit <i class='fa fa-pencil'></i></a>
-                        <a href='/deleteCenter/{{ $center->id }}' class='bookAction'>Delete <i class='fa fa-pencil'></i></a>
+                        <td><a href='/editCenter/{{ $center->id }}' class='dimAction'>Edit <i class='fa fa-pencil'></i></a>
+                        <a href='/deleteCenter/{{ $center->id }}' class='dimAction'>Delete <i class='fa fa-pencil'></i></a>
                         </td>
                     </tr>
                 </tbody>
