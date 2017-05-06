@@ -48,6 +48,9 @@ Route::get('/deleteProduct/{id}', 'DimensionController@confirmDeleteProduct');
 Route::post('/deleteProduct', 'DimensionController@deleteProduct');
 
 # /showRules
+Route::get('/showIncomeInput', 'ProfitController@showIncomeInput');
+
+# /showRules
 Route::get('/showRules', 'ProfitController@showRules');
 
 # /editRules

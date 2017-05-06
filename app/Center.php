@@ -18,4 +18,14 @@ class Center extends Model
 			->withPivot('balance','interest_income', 'interest_expense', 'non_interest_income', 'non_interest_expense', 'fee_income')
 			->withTimestamps();
 	}
+
+	# return center_types in a list to display in views
+    public static function getCentersForDropdown() {
+        $centers = Center::orderBy('name', 'ASC')->get();
+        $centersForDropdown = [];
+        foreach($centers as $center) {
+            $centersForDropdown[$center->id] = $center->name;
+        }
+        return $centersForDropdown;
+    }
 }

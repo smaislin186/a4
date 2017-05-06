@@ -19,4 +19,22 @@ class ProfitController extends Controller
             
         ]);
     }
+
+    public function showIncomeInput(Request $request){
+
+        $centersForDropdown = Center::getCentersForDropdown();
+        $productsForDropdown = Product::getProductsForDropdown();
+
+        $centers = Center::with('products')->get();
+        // dump($centers);
+        // dump($centers->toArray());
+     
+        $product = Product::all();
+      
+        return view('profitpoint.inputData.showIncomeInput')->with([
+            'centerTypesForDropdown' => $centersForDropdown,
+            'productsForDropdown' => $productsForDropdown,
+            'centers' => $centers,
+        ]);
+    }
 }
