@@ -6,28 +6,53 @@
 
 @section('content')
     <div class="content">
-        <h2>Center Profitability</h2>
+        <h2>Center and Product Profitability Results</h2>
         <br>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Interest Income</th>
-                    <th>Breakout by Product</th>
-                </tr>
-            </thead>
-            @foreach($results as $center)
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>{{ $center->name }}</td>
-                    <td>{{ $center->interest_income }}</td>
-                    <td><a href='/editCenter/{{ $center->id }}' class='dimAction'>Edit <i class='fa fa-pencil'></i></a>
-                    </td>
-                </tr>
-            </tbody>
-            @endforeach
-        </table>
+        @if(count($errors) > 0)
+            <div class='alert alert-danger'>
+            <ul>
+                @foreach ($errors->get('center') as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            </div>
+        @endif 
+        <form method ='POST' action='/results'>
+            {{ csrf_field() }}
+            <p>* Required fields</p>
+            
+            <label for='center'>Center to Graph</label>
+            <select id='center' name='center'>
+                <option value='0'>Choose</option>
+                    <option value='All' {{ ($center == 'All') ? 'SELECTED' : '' }}>All</option>
+                    <option value='East Boston' {{ ($center == 'East Boston') ? 'SELECTED' : '' }}>East Boston</option>
+            </select> 
+            @if($center == 'All')
+                <button type='submit' class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-refresh"></span> 
+                </button>
+                <div id="center-chart"></div>
+                <?=Lava::render('ColumnChart', 'Center Profit', 'center-chart')?>
+            @elseif($center == 0 && $product!=null)
+                <input type='submit' value='Retrieve Results' class='btn-primary btn small'>
+            @endif
+
+            <label for='product'>Product to Graph</label>
+            <select id='product' name='product'>
+                <option value='0'>Choose</option>
+                    <option value='All' {{ ($product == 'All') ? 'SELECTED' : '' }}>All</option>
+                    <option value='Loans' {{ ($product == 'Loans') ? 'SELECTED' : '' }}>Loans</option>
+            </select> 
+
+            @if($product == 'All')
+                <button type='submit' class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-refresh"></span> 
+                </button>
+                <div id="product-chart"></div>
+                <?=Lava::render('ColumnChart', 'Product Profit', 'product-chart')?>
+            @endif
+            
+            <input type='submit' value='Retrieve Results' class='btn-primary btn small'>            
+        </form>
     </div>
 @endsection

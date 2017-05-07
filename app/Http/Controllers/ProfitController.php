@@ -19,57 +19,73 @@ class ProfitController extends Controller
 
     # GET /
     # results page
-    public function results() {
-        # get profit results for dimensions from pivot table
-        $resultsCenter = Center::getProfitAllCenters();
-        $resultsProduct = Product::getProfitAllProducts();
-        $resultsProduct1 = Product::getProfitOneProduct(4);
-        $resultsCenter1 = Center::getProfitOneCenter(2);
-        dump($resultsCenter);
-        dump($resultsCenter1);
-        
-        # define data table structure for the graph
-        $centersTable = Lava::DataTable();
-        $centersTable->addStringColumn('Center')
-            ->addNumberColumn('Interest Income')
-            ->addNumberColumn('Interest Expense')
-            ->addNumberColumn('Non Interest Income')
-            ->addNumberColumn('Non Interest Expense')
-            ->addNumberColumn('Fee Income');
-        # add the data rows for the graph
-        foreach($resultsCenter as $value){
-            $centersTable->addRow([
-                $value['name'], $value['IntInc'], $value['IntExp'],$value['NII'],$value['NIE'],$value['FeeInc'],                    
-            ]);
-        }
+    public function results(Request $request) {
+        // $messages = [];
+        // $this->validate($request, [
+        //     'center' => 'required',
+        // ], $messages);
 
-        # link data table to chart 
-        # chart variable is available in memory, does not need to be passed back to view
-        $chart = Lava::ColumnChart('Center Profit',$centersTable);
+        // $this->validate($request, [
+        //     'center' => 'required',
+        // ]);
+        $center = $request ->center;
+        $center = 'All';
+        $resultsCenter;
+        $center = $request->center;
+        $product = NULL;
 
-         # define data table structure for the graph
-        $productsTable = Lava::DataTable();
-        $productsTable->addStringColumn('Product')
-            ->addNumberColumn('Interest Income')
-            ->addNumberColumn('Interest Expense')
-            ->addNumberColumn('Non Interest Income')
-            ->addNumberColumn('Non Interest Expense')
-            ->addNumberColumn('Fee Income');
-        # add the data rows for the graph
-        foreach($resultsProduct as $value){
-            $productsTable->addRow([
-                $value['name'], $value['IntInc'], $value['IntExp'],$value['NII'],$value['NIE'],$value['FeeInc'],                    
-            ]);
-        }
-
-        # link data table to chart 
-        # chart variable is available in memory, does not need to be passed back to view
-        $chart = Lava::ColumnChart('Product Profit',$productsTable);
-        return view('profitpoint.home')->with([
-            'resultsCenter' => $resultsCenter,  
-            'resultsProduct' => $resultsProduct,   
+        return view('profitpoint.results')->with([
+            'center' => $center, 
+            'product' => $product,
         ]);
     }
+
+    # POST
+    # /results
+    public function resultsView(Request $request){
+    
+        $this->validate($request, [
+            'center' => 'required',
+            'product' => 'required',
+        ]);
+        
+        $center = $request ->center;    
+        $product =  $request ->product;         
+        dump($center);
+
+        # get profit results for one or many CENTERS from pivot table
+        if($center == 'All'){
+            $resultsTable = Center::createRawDataTable(Center::getProfitAllCenters());
+            dump($resultsTable);
+            # link data table to chart 
+            # chart variable is available in memory, does not need to be passed back to view
+            $chart = Lava::ColumnChart('Center Profit',$resultsTable);
+        }
+        elseif($center == 'East Boston'){
+            $resultsTable = Center::createRawDataTable(Center::getProfitOneCenter(2));
+            dump($resultsTable);
+            $chart = Lava::ColumnChart('Center Profit',$resultsTable);
+        }
+
+        # get profit results for one or many PRODUCTS from pivot table
+        if($product == 'All'){
+            $resultsTable = Product::createRawDataTable(Product::getProfitAllProducts());
+            dump($resultsTable);
+            $chart = Lava::ColumnChart('Product Profit',$resultsTable);
+        }
+        elseif($product == 'East Boston'){
+            $resultsTable = Product::createRawDataTable(Product::getProfitOneProduct(2));
+            dump($resultsTable);
+            $chart = Lava::ColumnChart('Product Profit',$resultsTable);
+        }
+        
+        return view('profitpoint.results')->with([
+            'center' => $center, 
+            'product' => $product,
+        ]);
+    }
+
+
     public function showIncomeData(Request $request){
 
         $centersForDropdown = Center::getCentersForDropdown();

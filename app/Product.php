@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Lava;
 
 class Product extends Model
 {    
@@ -66,7 +67,7 @@ class Product extends Model
     public static function getProfitOneProduct($id){
 		$products = Product::where('id', $id)->with('centers')->get();
 		$product_profit = [];
-        dump($products->toArray());
+        //dump($products->toArray());
         $productArray = $products->toArray();
         $balance = 0;
         $interest_income = 0;
@@ -96,5 +97,24 @@ class Product extends Model
 
 		//dump($product_profit);
 		return $product_profit;	
+	}
+
+    public static function createRawDataTable($product){
+		# define data table structure for the graph
+		$table = Lava::DataTable();
+            $table->addStringColumn('Product')
+                ->addNumberColumn('Interest Income')
+                ->addNumberColumn('Interest Expense')
+                ->addNumberColumn('Non Interest Income')
+                ->addNumberColumn('Non Interest Expense')
+                ->addNumberColumn('Fee Income');
+            
+            # add the data rows for the graph
+            foreach($product as $value){
+                $table->addRow([
+                    $value['name'], $value['IntInc'], $value['IntExp'],$value['NII'],$value['NIE'],$value['FeeInc'],                    
+                ]);
+            }
+		return $table;
 	}
 }

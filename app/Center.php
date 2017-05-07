@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Lava;
 
 class Center extends Model
 {
@@ -69,7 +70,7 @@ class Center extends Model
     public static function getProfitOneCenter($id){
 		$centers = Center::where('id', $id)->with('products')->get();
 		$center_profit = [];
-        dump($centers->toArray());
+        //dump($centers->toArray());
         $centerArray = $centers->toArray();
         $balance = 0;
         $interest_income = 0;
@@ -99,5 +100,24 @@ class Center extends Model
 		
 		//dump($center_profit);
 		return $center_profit;	
+	}
+
+	public static function createRawDataTable($center){
+		# define data table structure for the graph
+		$table = Lava::DataTable();
+            $table->addStringColumn('Center')
+                ->addNumberColumn('Interest Income')
+                ->addNumberColumn('Interest Expense')
+                ->addNumberColumn('Non Interest Income')
+                ->addNumberColumn('Non Interest Expense')
+                ->addNumberColumn('Fee Income');
+            
+            # add the data rows for the graph
+            foreach($center as $value){
+                $table->addRow([
+                    $value['name'], $value['IntInc'], $value['IntExp'],$value['NII'],$value['NIE'],$value['FeeInc'],                    
+                ]);
+            }
+		return $table;
 	}
 }

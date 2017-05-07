@@ -16,6 +16,7 @@
 Route::get('/', 'ProfitController@home');
 # /results
 Route::get('/results', 'ProfitController@results');
+Route::post('/results', 'ProfitController@resultsView');
 
 # /showCenter
 Route::get('/showCenter', 'DimensionController@showCenter');

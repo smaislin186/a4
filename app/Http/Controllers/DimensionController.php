@@ -71,7 +71,7 @@ class DimensionController extends Controller
     # GET 
     # /editCenter/{id}   
     public function editCenter($id) {
-        dump($id);
+        //dump($id);
         $center = Center::find($id);
         $centerTypesForDropdown = CenterType::getCenterTypesForDropdown();
         # Return the view
