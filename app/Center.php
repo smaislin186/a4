@@ -61,7 +61,7 @@ class Center extends Model
 					'FeeInc' => $fee_income
 					];
 		}
-		dump($center_profit);
+		//dump($center_profit);
 		return $center_profit;	
 	}
 
@@ -97,7 +97,7 @@ class Center extends Model
                 'FeeInc' => $fee_income
                 ];
 		
-		dump($center_profit);
+		//dump($center_profit);
 		return $center_profit;	
 	}
 }

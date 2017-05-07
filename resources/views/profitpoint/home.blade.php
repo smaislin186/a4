@@ -16,5 +16,8 @@
             <a href='/showProduct' class='dimAction'>Manage Products<i class='fa fa-pencil'></i></a>
             <a href='/showIncomeData' class='dimAction'>Manage Input Data<i class='fa fa-pencil'></i></a>
         </div>
+
+        <div id="center-chart"></div>
+        <?=Lava::render('LineChart', 'Center Profit', 'center-chart')?>
     </div>
 @endsection

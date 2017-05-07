@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Center;
 use App\CenterType;
 use App\Product;
+use Lava;
 use Session;
 
 class ProfitController extends Controller
@@ -25,7 +26,21 @@ class ProfitController extends Controller
         $resultsCenter1 = Center::getProfitOneCenter(2);
         // dump($resultsCenter);
         // dump($resultsProduct);
-    
+        
+        $centersTable = Lava::DataTable();
+        $centersTable->addStringColumn('Center')
+                     ->addNumberColumn('Interest Income')
+                      ->addNumberColumn('Interest Expense');
+        
+        // Random Data For Example
+        for ($a = 1; $a < 30; $a++) {
+            $centersTable->addRow([
+            'Center' . $a, rand(800,1000), rand(800,1000)
+            ]);
+        }
+
+        $chart = Lava::LineChart('Center Profit',$centersTable);
+
         return view('profitpoint.home')->with([
             'resultsCenter' => $resultsCenter,  
             'resultsProduct' => $resultsProduct,   

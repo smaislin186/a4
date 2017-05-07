@@ -57,7 +57,7 @@ class Product extends Model
 					'FeeInc' => $fee_income
 					];
 		}
-		dump($product_profit);
+		//dump($product_profit);
 
 		return $product_profit;	
 	}
@@ -94,7 +94,7 @@ class Product extends Model
                 'FeeInc' => $fee_income
                 ];
 
-		dump($product_profit);
+		//dump($product_profit);
 		return $product_profit;	
 	}
 }
