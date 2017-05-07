@@ -29,10 +29,11 @@ class Center extends Model
         return $centersForDropdown;
     }
 
+	# sum data for each center
 	public static function getProfitAllCenters(){
 		$centers = Center::with('products')->get();
 		$center_profit = [];
-		//dump($centers->toArray());
+
 		foreach($centers as $center){
 			$balance = 0;
 			$interest_income = 0;
@@ -48,7 +49,9 @@ class Center extends Model
 				$non_interest_income += $product['pivot']->non_interest_income;
 				$non_interest_expense += $product['pivot']->non_interest_expense;
 				$fee_income += $product['pivot']->fee_income;
-				$center_profit[$center['id']] = [
+			}
+			// if put inside the product for each, it excludes center without a row in the pivot
+			$center_profit[$center['id']] = [
 					'name' => $center['name'],
 					'Balance' => $balance, 
 					'IntInc' => $interest_income,
@@ -57,20 +60,44 @@ class Center extends Model
 					'NIE' => $non_interest_expense,
 					'FeeInc' => $fee_income
 					];
-			}
 		}
 		dump($center_profit);
-
 		return $center_profit;	
 	}
 
-	public static function getProfitOneCenter($id){
-		$centers = Center::find($id)->with('products')->get();
-		$centers = CenterProduct::table('center_product')
-			->groupBy('center_id')
-			->sum('interest_income')
-			//->selectRaw('sum(interest_income) as interest_income, name')
-			->pluck('interest_income', 'name');
-		return $centers;	
+	# sum data for one product
+    public static function getProfitOneCenter($id){
+		$centers = Center::where('id', $id)->with('products')->get();
+		$center_profit = [];
+        dump($centers->toArray());
+        $centerArray = $centers->toArray();
+        $balance = 0;
+        $interest_income = 0;
+        $interest_expense = 0;
+        $non_interest_income = 0;
+        $non_interest_expense = 0;
+        $fee_income = 0;
+			
+        foreach($centerArray[0]['products'] as $product){
+            $balance += $product['pivot']['balance'];
+            $interest_income += $product['pivot']['interest_income'];
+            $interest_expense += $product['pivot']['interest_expense'];
+            $non_interest_income += $product['pivot']['non_interest_income'];
+            $non_interest_expense += $product['pivot']['non_interest_expense'];
+            $fee_income += $product['pivot']['fee_income'];
+        }
+
+		$center_profit[$centerArray[0]['id']]= [
+                'name' => $centerArray[0]['name'],
+                'Balance' => $balance, 
+                'IntInc' => $interest_income,
+                'IntExp' => $interest_expense,
+                'NII' => $non_interest_income,
+                'NIE' => $non_interest_expense,
+                'FeeInc' => $fee_income
+                ];
+		
+		dump($center_profit);
+		return $center_profit;	
 	}
 }

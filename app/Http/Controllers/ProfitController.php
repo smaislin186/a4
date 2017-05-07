@@ -21,6 +21,8 @@ class ProfitController extends Controller
     public function results() {
         $resultsCenter = Center::getProfitAllCenters();
         $resultsProduct = Product::getProfitAllProducts();
+        $resultsProduct1 = Product::getProfitOneProduct(4);
+        $resultsCenter1 = Center::getProfitOneCenter(2);
         // dump($resultsCenter);
         // dump($resultsProduct);
     
