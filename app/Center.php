@@ -34,10 +34,6 @@ class Center extends Model
 		$center_profit = [];
 		//dump($centers->toArray());
 		foreach($centers as $center){
-			$center_profit += [
-				'id' => $center['id'],
-				'name' => $center['name']
-				];
 			$balance = 0;
 			$interest_income = 0;
 			$interest_expense = 0;
@@ -52,7 +48,8 @@ class Center extends Model
 				$non_interest_income += $product['pivot']->non_interest_income;
 				$non_interest_expense += $product['pivot']->non_interest_expense;
 				$fee_income += $product['pivot']->fee_income;
-				$center_profit[$center['id']]= [
+				$center_profit[$center['id']] = [
+					'name' => $center['name'],
 					'Balance' => $balance, 
 					'IntInc' => $interest_income,
 					'IntExp' => $interest_expense,

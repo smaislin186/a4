@@ -27,9 +27,8 @@ class Product extends Model
     public static function getProfitAllProducts(){
 		$products = Product::with('centers')->get();
 		$product_profit = [];
-		//dump($centers->toArray());
+		dump($products->toArray());
 		foreach($products as $product){
-			$product_profit += ['id' => $product['id']];
 			$balance = 0;
 			$interest_income = 0;
 			$interest_expense = 0;
@@ -44,8 +43,9 @@ class Product extends Model
 				$non_interest_income += $center['pivot']->non_interest_income;
 				$non_interest_expense += $center['pivot']->non_interest_expense;
 				$fee_income += $center['pivot']->fee_income;
-				$product_profit[$center['id']]= [
-					'Balance' => $balance, 
+				$product_profit[$product['id']]= [
+					'name' => $product['name'],
+                    'Balance' => $balance, 
 					'IntInc' => $interest_income,
 					'IntExp' => $interest_expense,
 					'NII' => $non_interest_income,
