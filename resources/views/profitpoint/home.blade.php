@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="content">
-        <h2>Welcome to Scrabble Calculator</h2>
+        <h2>Profit Point</h2>
         <div class="intro">
         Scrabble Calculator will help you validate and score your scrabble
             words so you can get back to the game faster! 
@@ -18,6 +18,9 @@
         </div>
 
         <div id="center-chart"></div>
-        <?=Lava::render('LineChart', 'Center Profit', 'center-chart')?>
+        <?=Lava::render('ColumnChart', 'Center Profit', 'center-chart')?>
+
+        <div id="product-chart"></div>
+        <?=Lava::render('ColumnChart', 'Product Profit', 'product-chart')?>
     </div>
 @endsection

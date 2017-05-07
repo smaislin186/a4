@@ -15,7 +15,9 @@
 <body>
 
     <header>
-        <!--img src='/images/scrabble_tiles.jpeg' alt='Scrabble Logo'-->
+        <a href='/'> 
+            <img id ='logo' src='/images/logo.jpg' alt='Profit Point Logo'>
+        </a>
     </header>
 
     <section>

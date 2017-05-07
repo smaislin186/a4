@@ -20,27 +20,51 @@ class ProfitController extends Controller
     # GET /
     # results page
     public function results() {
+        # get profit results for dimensions from pivot table
         $resultsCenter = Center::getProfitAllCenters();
         $resultsProduct = Product::getProfitAllProducts();
         $resultsProduct1 = Product::getProfitOneProduct(4);
         $resultsCenter1 = Center::getProfitOneCenter(2);
-        // dump($resultsCenter);
-        // dump($resultsProduct);
+        dump($resultsCenter);
+        dump($resultsCenter1);
         
+        # define data table structure for the graph
         $centersTable = Lava::DataTable();
         $centersTable->addStringColumn('Center')
-                     ->addNumberColumn('Interest Income')
-                      ->addNumberColumn('Interest Expense');
-        
-        // Random Data For Example
-        for ($a = 1; $a < 30; $a++) {
+            ->addNumberColumn('Interest Income')
+            ->addNumberColumn('Interest Expense')
+            ->addNumberColumn('Non Interest Income')
+            ->addNumberColumn('Non Interest Expense')
+            ->addNumberColumn('Fee Income');
+        # add the data rows for the graph
+        foreach($resultsCenter as $value){
             $centersTable->addRow([
-            'Center' . $a, rand(800,1000), rand(800,1000)
+                $value['name'], $value['IntInc'], $value['IntExp'],$value['NII'],$value['NIE'],$value['FeeInc'],                    
             ]);
         }
 
-        $chart = Lava::LineChart('Center Profit',$centersTable);
+        # link data table to chart 
+        # chart variable is available in memory, does not need to be passed back to view
+        $chart = Lava::ColumnChart('Center Profit',$centersTable);
 
+         # define data table structure for the graph
+        $productsTable = Lava::DataTable();
+        $productsTable->addStringColumn('Product')
+            ->addNumberColumn('Interest Income')
+            ->addNumberColumn('Interest Expense')
+            ->addNumberColumn('Non Interest Income')
+            ->addNumberColumn('Non Interest Expense')
+            ->addNumberColumn('Fee Income');
+        # add the data rows for the graph
+        foreach($resultsProduct as $value){
+            $productsTable->addRow([
+                $value['name'], $value['IntInc'], $value['IntExp'],$value['NII'],$value['NIE'],$value['FeeInc'],                    
+            ]);
+        }
+
+        # link data table to chart 
+        # chart variable is available in memory, does not need to be passed back to view
+        $chart = Lava::ColumnChart('Product Profit',$productsTable);
         return view('profitpoint.home')->with([
             'resultsCenter' => $resultsCenter,  
             'resultsProduct' => $resultsProduct,   
@@ -53,7 +77,7 @@ class ProfitController extends Controller
 
         $centers = Center::with('products')->get();
         // dump($centers);
-         dump($centers->toArray());
+        //dump($centers->toArray());
      
         $product = Product::all();
       
