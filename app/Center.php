@@ -28,4 +28,52 @@ class Center extends Model
         }
         return $centersForDropdown;
     }
+
+	public static function getProfitAllCenters(){
+		$centers = Center::with('products')->get();
+		$center_profit = [];
+		//dump($centers->toArray());
+		foreach($centers as $center){
+			$center_profit += [
+				'id' => $center['id'],
+				'name' => $center['name']
+				];
+			$balance = 0;
+			$interest_income = 0;
+			$interest_expense = 0;
+			$non_interest_income = 0;
+			$non_interest_expense = 0;
+			$fee_income = 0;
+			
+			foreach($center['products'] as $product){
+				$balance += $product['pivot']->balance;
+				$interest_income += $product['pivot']->interest_income;
+				$interest_expense += $product['pivot']->interest_expense;
+				$non_interest_income += $product['pivot']->non_interest_income;
+				$non_interest_expense += $product['pivot']->non_interest_expense;
+				$fee_income += $product['pivot']->fee_income;
+				$center_profit[$center['id']]= [
+					'Balance' => $balance, 
+					'IntInc' => $interest_income,
+					'IntExp' => $interest_expense,
+					'NII' => $non_interest_income,
+					'NIE' => $non_interest_expense,
+					'FeeInc' => $fee_income
+					];
+			}
+		}
+		dump($center_profit);
+
+		return $center_profit;	
+	}
+
+	public static function getProfitOneCenter($id){
+		$centers = Center::find($id)->with('products')->get();
+		$centers = CenterProduct::table('center_product')
+			->groupBy('center_id')
+			->sum('interest_income')
+			//->selectRaw('sum(interest_income) as interest_income, name')
+			->pluck('interest_income', 'name');
+		return $centers;	
+	}
 }

@@ -30,7 +30,7 @@ class DimensionController extends Controller
 
     # GET
     # /addCenter
-    public function addCenter(Request $request){
+    public function addCenter(){
         $centerTypesForDropdown = CenterType::getCenterTypesForDropdown();
         return view('profitpoint.dimensions.addCenter')->with([
            'centerTypesForDropdown' => $centerTypesForDropdown, 
@@ -54,7 +54,7 @@ class DimensionController extends Controller
         //     'author_id' => 'not_in:0',
         // ], $messages);
 
-        # Add new book to database
+        # Add new center to database
         $center = new Center();
         $center->code = $request->code;
         $center->name = $request->name;
@@ -64,7 +64,7 @@ class DimensionController extends Controller
 
         Session::flash('message', 'The center '.$request->code.' was added.');
 
-        # Redirect the user to book index
+        # Redirect the user to display all centers
         return redirect('/showCenter');
     }
 

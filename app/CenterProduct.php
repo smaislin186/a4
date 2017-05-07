@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FactCenter extends Model
+class CenterProduct extends Model
 {
     //
 }

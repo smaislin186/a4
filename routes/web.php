@@ -14,45 +14,47 @@
 # /
 # Main homepage visitors see when they visit the site 
 Route::get('/', 'ProfitController@home');
+# /results
+Route::get('/results', 'ProfitController@results');
 
 # /showCenter
-# Main homepage visitors see when they visit the site 
 Route::get('/showCenter', 'DimensionController@showCenter');
-
 # /addCenter
 Route::get('/addCenter', 'DimensionController@addCenter');
 Route::post('/addCenter', 'DimensionController@saveNewCenter');
-
 # /editCenter
 Route::get('/editCenter/{id}', 'DimensionController@editCenter');
 Route::post('/editCenter', 'DimensionController@saveCenter');
-
 # /deleteCenter
 Route::get('/deleteCenter/{id}', 'DimensionController@confirmDeleteCenter');
 Route::post('/deleteCenter', 'DimensionController@deleteCenter');
 
 # /showProduct
-# Main homepage visitors see when they visit the site 
 Route::get('/showProduct', 'DimensionController@showProduct');
-
 # /addProduct
 Route::get('/addProduct', 'DimensionController@addProduct');
 Route::post('/addProduct', 'DimensionController@saveNewProduct');
-
 # /editProduct
 Route::get('/editProduct/{id}', 'DimensionController@editProduct');
 Route::post('/editProduct', 'DimensionController@saveProduct');
-
 # /deleteProduct
-Route::get('/deleteProduct/{id}', 'DimensionController@confirmDeleteProduct');
+Route::get('/deleteProduct/Center{cid}Product{pid}', 'DimensionController@confirmDeleteProduct');
 Route::post('/deleteProduct', 'DimensionController@deleteProduct');
 
-# /showRules
-Route::get('/showIncomeInput', 'ProfitController@showIncomeInput');
+# /showIncomeInput
+Route::get('/showIncomeData', 'ProfitController@showIncomeData');
+# /addIncomeInput
+Route::get('/addIncomeData', 'ProfitController@addIncomeData');
+Route::post('/addIncomeData', 'ProfitController@saveNewIncomeData');
+# /editIncomeInput
+Route::get('/editIncomeData/C:{cid}P:{pid}', 'ProfitController@editIncomeData');
+Route::post('/editIncomeData', 'ProfitController@saveIncomeData');
+# /deleteIncomeInput
+Route::get('/deleteIncomeData/{id}', 'ProfitController@confirmDeleteIncomeData');
+Route::post('/deleteIncomeData', 'ProfitController@deleteIncomeData');
 
 # /showRules
 Route::get('/showRules', 'ProfitController@showRules');
-
 # /editRules
 Route::get('/editRules', 'ProfitController@editRules');
 
