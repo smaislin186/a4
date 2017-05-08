@@ -12,12 +12,12 @@
         {{ csrf_field() }}
 
         <small>* Required fields</small>
+        <br>
+        <label for='code'>* Code</label>
+        <input type='text' name='code' id='code' value='{{ old('code', 'P000') }}'>
 
-        <label for='title'>* Code</label>
-        <input type='text' name='code' id='code' value='{{ old('Code', 'P000') }}'>
-
-        <label for='published'>* Name</label>
-        <input type='text' name='name' id='name' value='{{ old('Name', 'ProductName') }}'>
+        <label for='name'>* Name</label>
+        <input type='text' name='name' id='name' value='{{ old('name', 'ProductName') }}'>
 
         <input class='btn btn-primary' type='submit' value='Add new product'>
     </form>

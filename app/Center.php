@@ -73,7 +73,7 @@ class Center extends Model
 					'NII' => $non_interest_income,
 					'NIE' => $non_interest_expense,
 					'FeeInc' => $fee_income
-					];
+				];
 			}
 		}
 		return $center_profit;	

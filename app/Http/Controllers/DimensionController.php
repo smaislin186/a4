@@ -41,28 +41,32 @@ class DimensionController extends Controller
     # POST
     # /addCenter
     public function saveNewCenter(Request $request){
-        # Custom error message
-        // $messages = [
-        //     'author_id.not_in' => 'Author not selected.',
-        // ];
-
-        // $this->validate($request, [
-        //     'title' => 'required|min:3',
-        //     'published' => 'required|numeric',
-        //     'cover' => 'required|url',
-        //     'purchase_link' => 'required|url',
-        //     'author_id' => 'not_in:0',
-        // ], $messages);
+        $this->validate($request, [
+            'code' => 'required',
+            'name' => 'required',
+            'type' => 'required',
+        ]);
 
         # Add new center to database
         $center = new Center();
-        $center->code = $request->code;
+        $code = $request->code;
+        if(Center::where('code', $code)->get()->isEmpty())
+        {   
+            $center->code = $code;
+        }
+        else{
+            // add custom validation to errors to catch dup??
+            Session::flash('message', 'Center with Code:'.$code .' already exists');
+            $errors = 'Center Code '.$code.' already exists';
+            return redirect('/addCenter');
+        }
+
         $center->name = $request->name;
         $center->parent_id = 0;
-        $center->center_type_id = $request->center_type_id;
+        $center->center_type_id = $request->type;
         $center->save();
 
-        Session::flash('message', 'The center '.$request->code.' was added.');
+        Session::flash('message', 'The center '.$code.' was added.');
 
         # Redirect the user to display all centers
         return redirect('/showCenter');
@@ -152,35 +156,40 @@ class DimensionController extends Controller
     }
 
     # GET
-    # /addCenter
+    # /addProduct
     public function addProduct(Request $request){
         return view('profitpoint.dimensions.addProduct');
     }
 
     # POST
-    # /addCenter
+    # /addProduct
     public function saveNewProduct(Request $request){
-        # Custom error message
-        // $messages = [
-        //     'author_id.not_in' => 'Author not selected.',
-        // ];
+        $this->validate($request, [
+            'code' => 'required',
+            'name' => 'required',
+        ]);
 
-        // $this->validate($request, [
-        //     'title' => 'required|min:3',
-        //     'published' => 'required|numeric',
-        //     'cover' => 'required|url',
-        //     'purchase_link' => 'required|url',
-        //     'author_id' => 'not_in:0',
-        // ], $messages);
-
-        # Add new book to database
         $product = new Product();
-        $product->code = $request->code;
+        $code = $request->code;
+        
+        # check for unique code
+        $code = $request->code;
+        if(Product::where('code', $code)->get()->isEmpty())
+        {   
+            $product->code = $code;
+        }
+        else{
+            // add custom validation to errors to catch dup??
+            Session::flash('message', 'Product Code:'.$code.' already exists');
+            $errors = 'Product Code '.$code.' already exists';
+            return redirect('/addProduct');
+        }
+
         $product->name = $request->name;
         $product->parent_id = 0;
         $product->save();
 
-        Session::flash('message', 'The product '.$request->code.' was added.');
+        Session::flash('message', 'The product '.$code.' was added.');
 
         # Redirect the user to book index
         return redirect('/showProduct');

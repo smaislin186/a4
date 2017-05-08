@@ -39,7 +39,7 @@ Route::post('/addProduct', 'DimensionController@saveNewProduct');
 Route::get('/editProduct/{id}', 'DimensionController@editProduct');
 Route::post('/editProduct', 'DimensionController@saveProduct');
 # /deleteProduct
-Route::get('/deleteProduct/Center{cid}Product{pid}', 'DimensionController@confirmDeleteProduct');
+Route::get('/deleteProduct/{id}', 'DimensionController@confirmDeleteProduct');
 Route::post('/deleteProduct', 'DimensionController@deleteProduct');
 
 # /showIncomeInput

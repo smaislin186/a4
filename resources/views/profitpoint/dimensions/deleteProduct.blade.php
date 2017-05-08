@@ -15,7 +15,7 @@
 
         <h2>Are you sure you want to delete <em>{{ $product->code }}, {{$product->name}}</em>?</h2>
 
-        <input type='submit' value='Yes, delete this center.' class='btn btn-danger'>
+        <input type='submit' value='Yes, delete this product.' class='btn btn-danger'>
 
     </form>
 

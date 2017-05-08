@@ -12,22 +12,32 @@
         {{ csrf_field() }}
 
         <small>* Required fields</small>
+        <br>
+        <label for='code'>* Code</label>
+        <input type='text' name='code' id='code' value='{{ old('code', 'P000') }}'>
 
-        <label for='title'>* Code</label>
-        <input type='text' name='code' id='code' value='{{ old('Code', 'P000') }}'>
-
-        <label for='published'>* Name</label>
-        <input type='text' name='name' id='name' value='{{ old('Name', 'CenterName') }}'>
+        <label for='name'>* Name</label>
+        <input type='text' name='name' id='name' value='{{ old('name', 'CenterName') }}'>
 
         <label for='type'>* Type</label>
-        <select id='center_type_id' name='center_type_id'>
-            <option value='0'>Choose</option>
+        <select id='type' name='type'>
+            <option value=''>Choose</option>
                 @foreach($centerTypesForDropdown as $center_type_id => $type)
                 <option value='{{ $center_type_id }}'>
                     {{ $type }}
                 </option>
             @endforeach
         </select>  
+
+        @if(count($errors) > 0)
+            <div class='alert alert-danger error'>
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <input class='btn btn-primary' type='submit' value='Add new center'>
     </form>

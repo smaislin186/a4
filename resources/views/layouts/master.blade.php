@@ -14,8 +14,12 @@
 </head>
 <body>
 
-    <header>
-         <div class = "content">
+    <div class = "content">
+        @if(Session::get('message') != null)
+            <div class='message'>{{ Session::get('message') }}</div>
+        @endif
+        
+        <header>
             <a href='/'> 
                 <img id ='logo' src='/images/logo2.jpg' alt='Profit Point Logo'>
             </a>
