@@ -15,21 +15,24 @@
 <body>
 
     <header>
-        
+         <div class = "content">
+            <a href='/'> 
+                <img id ='logo' src='/images/logo2.jpg' alt='Profit Point Logo'>
+            </a>
+            <nav>
+                <ul>
+                <div class="links">
+                    <li><a href='/results' class='dimAction'>RESULTS</a></li>
+                    <li><a href='/showCenter' class='dimAction'>Manage Centers</a></li>
+                    <li><a href='/showProduct' class='dimAction'>Manage Products</a></li>
+                    <li><a href='/showIncomeData' class='dimAction'>Manage Input Data</a></li>
+                </div>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <section>
-        <div class = "content">
-            <a href='/results'> 
-                <img id ='logo' src='/images/logo2.jpg' alt='Profit Point Logo'>
-            </a>
-            <div class="links">
-                <a href='/results' class='dimAction'>RESULTS</a>
-                <a href='/showCenter' class='dimAction'>Manage Centers</a>
-                <a href='/showProduct' class='dimAction'>Manage Products</a>
-                <a href='/showIncomeData' class='dimAction'>Manage Input Data</a>
-            </div>
-        </div>
         @yield('content')
     </section>
 

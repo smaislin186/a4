@@ -7,6 +7,40 @@ html, body {
     margin: 0;
 }
 
+/*----------------------------------------------------
+http://mystrd.at/modern-clean-css-sticky-footer
+-----------------------------------------------------*/
+/*html {
+    position:relative;
+    min-height:100%;
+}
+body {
+    margin:0 0 100px; /* bottom = footer height 
+}
+
+footer {
+    position: absolute;
+    left:0;
+    bottom:0;
+    height:30px;
+    width:100%;
+    background-color:#eee;
+    text-align:center;
+    padding:5px;
+}*/
+/* End Sticky Footer */
+
+/*----------------------------------------------------
+http://www.paulirish.com/2012/box-sizing-border-box-ftw/
+-----------------------------------------------------*/
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+/* End Box Sizing */
+
 .full-height {
     height: 100vh;
 }
@@ -35,7 +69,7 @@ html, body {
     font-size: 84px;
 }
 
-.links > a {
+.links > li >a {
     color: #636b6f;
     padding: 0 25px;
     font-size: 12px;

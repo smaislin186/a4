@@ -26,7 +26,7 @@ class Product extends Model
     }
 
     # sum data for each product
-    public static function getProfitAllProducts(){
+    public static function getProfitAllProducts($hideEmpty){
 		$products = Product::with('centers')->get();
 		$product_profit = [];
 
@@ -45,10 +45,22 @@ class Product extends Model
 				$non_interest_income += $center['pivot']->non_interest_income;
 				$non_interest_expense += $center['pivot']->non_interest_expense;
 				$fee_income += $center['pivot']->fee_income;
+
+                if($hideEmpty == 'on'){
+                    $product_profit[$product['id']]= [
+                        'name' => $product['name'],
+                        'Balance' => $balance, 
+                        'IntInc' => $interest_income,
+                        'IntExp' => $interest_expense,
+                        'NII' => $non_interest_income,
+                        'NIE' => $non_interest_expense,
+                        'FeeInc' => $fee_income
+                    ];
+                }
 			}
-            // if put inside the product for each, it excludes center without a row in the pivot
-            // add if statement to check if all balances are 0? Let user pick if want to return records with no data?
-            $product_profit[$product['id']]= [
+            
+            if($hideEmpty != 'on'){
+                $product_profit[$product['id']]= [
 					'name' => $product['name'],
                     'Balance' => $balance, 
 					'IntInc' => $interest_income,
@@ -56,10 +68,9 @@ class Product extends Model
 					'NII' => $non_interest_income,
 					'NIE' => $non_interest_expense,
 					'FeeInc' => $fee_income
-					];
+				];
+            }
 		}
-		//dump($product_profit);
-
 		return $product_profit;	
 	}
 

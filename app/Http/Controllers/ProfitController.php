@@ -20,71 +20,75 @@ class ProfitController extends Controller
     # GET /
     # results page
     public function results(Request $request) {
-        // $messages = [];
-        // $this->validate($request, [
-        //     'center' => 'required',
-        // ], $messages);
 
-        // $this->validate($request, [
-        //     'center' => 'required',
-        // ]);
-        $center = $request ->center;
-        $center = 'All';
-        $resultsCenter;
-        $center = $request->center;
-        $product = NULL;
+        $center = 'None';
+        $product = 'None';
+        $centerHideEmpty = 'false';
+        $productHideEmpty = 'false';
+        $centersForDropdown = Center::getCentersForDropdown();
+        $productsForDropdown = Product::getProductsForDropdown();
 
         return view('profitpoint.results')->with([
             'center' => $center, 
             'product' => $product,
+            'centerHideEmpty' => $centerHideEmpty,
+            'productHideEmpty' => $productHideEmpty,
+            'centersForDropdown' => $centersForDropdown,
+            'productsForDropdown' => $productsForDropdown,
         ]);
     }
 
     # POST
     # /results
     public function resultsView(Request $request){
-    
+        
+        //  dd($request->centerHideEmpty);
         $this->validate($request, [
             'center' => 'required',
             'product' => 'required',
         ]);
         
-        $center = $request ->center;    
-        $product =  $request ->product;         
-        dump($center);
+        $center = $request->center;    
+        $product =  $request->product;         
+        $centerHideEmpty = ($request->has('centerHideEmpty')) ? $request->centerHideEmpty : '' ;
+        $productHideEmpty = ($request->has('productHideEmpty')) ? $request->productHideEmpty : '' ;
 
-        # get profit results for one or many CENTERS from pivot table
-        if($center == 'All'){
-            $resultsTable = Center::createRawDataTable(Center::getProfitAllCenters());
-            dump($resultsTable);
-            # link data table to chart 
-            # chart variable is available in memory, does not need to be passed back to view
-            $chart = Lava::ColumnChart('Center Profit',$resultsTable);
-        }
-        elseif($center == 'East Boston'){
-            $resultsTable = Center::createRawDataTable(Center::getProfitOneCenter(2));
-            dump($resultsTable);
-            $chart = Lava::ColumnChart('Center Profit',$resultsTable);
-        }
-
-        # get profit results for one or many PRODUCTS from pivot table
-        if($product == 'All'){
-            $resultsTable = Product::createRawDataTable(Product::getProfitAllProducts());
-            dump($resultsTable);
-            $chart = Lava::ColumnChart('Product Profit',$resultsTable);
-        }
-        elseif($product == 'East Boston'){
-            $resultsTable = Product::createRawDataTable(Product::getProfitOneProduct(2));
-            dump($resultsTable);
-            $chart = Lava::ColumnChart('Product Profit',$resultsTable);
-        }
         
+        # get results for CENTERS
+        if($center == 'All'){
+            # sum the results from the pivot table then add to data table for graph
+            $resultsTable = Center::createRawDataTable(Center::getProfitAllCenters($centerHideEmpty));
+            # link data table to chart 
+            # chart variable is available in memory, does not need to be explicitly passed back to view
+            $chart = Lava::ColumnChart('Center Profit',$resultsTable);
+        }
+        else{
+            $resultsTable = Center::createRawDataTable(Center::getProfitOneCenter($center));
+            $chart = Lava::ColumnChart('Center Profit',$resultsTable);
+        }
+
+        # get results for PRODUCTS
+        if($product == 'All'){
+            $resultsTable = Product::createRawDataTable(Product::getProfitAllProducts($productHideEmpty));
+            $chart = Lava::ColumnChart('Product Profit',$resultsTable);
+        }
+        else{
+            $resultsTable = Product::createRawDataTable(Product::getProfitOneProduct($product));
+            $chart = Lava::ColumnChart('Product Profit',$resultsTable);
+        }
+
+        $centersForDropdown = Center::getCentersForDropdown();
+        $productsForDropdown = Product::getProductsForDropdown();
+
         return view('profitpoint.results')->with([
             'center' => $center, 
             'product' => $product,
+            'centerHideEmpty' => $centerHideEmpty,
+            'productHideEmpty' => $productHideEmpty,
+            'centersForDropdown' => $centersForDropdown,
+            'productsForDropdown' => $productsForDropdown,
         ]);
     }
-
 
     public function showIncomeData(Request $request){
 
@@ -127,7 +131,6 @@ class ProfitController extends Controller
             'nie' => 'required|numeric',
             'feeinc' => 'required|numeric',
         ], $messages);
-        //dd($request);
         
         $center = Center::find($request->center_id);
         $product= $request->product_id;
@@ -154,7 +157,6 @@ class ProfitController extends Controller
         $center = Center::find($cid)->with('products')->get();
         dump($center->toArray());    
         
-
         # Return the view
         return view('profitpoint.dimensions.editCenter')->with([
            'center' => $center,
@@ -175,7 +177,6 @@ class ProfitController extends Controller
             'nie' => 'required|numeric',
             'feeinc' => 'required|numeric',
         ], $messages);
-        //dd($request);
         
         $center = Center::find($request->center_id);
         $product= $request->product_id;

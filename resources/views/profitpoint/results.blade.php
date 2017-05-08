@@ -14,45 +14,67 @@
                 @foreach ($errors->get('center') as $error)
                     <li>{{ $error }}</li>
                 @endforeach
+                @foreach ($errors->get('centerHideEmpty') as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+                @foreach ($errors->get('productHideEmpty') as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
             </ul>
             </div>
         @endif 
         <form method ='POST' action='/results'>
             {{ csrf_field() }}
-            <p>* Required fields</p>
-            
-            <label for='center'>Center to Graph</label>
-            <select id='center' name='center'>
-                <option value='0'>Choose</option>
-                    <option value='All' {{ ($center == 'All') ? 'SELECTED' : '' }}>All</option>
-                    <option value='East Boston' {{ ($center == 'East Boston') ? 'SELECTED' : '' }}>East Boston</option>
-            </select> 
-            @if($center == 'All')
-                <button type='submit' class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-refresh"></span> 
-                </button>
-                <div id="center-chart"></div>
-                <?=Lava::render('ColumnChart', 'Center Profit', 'center-chart')?>
-            @elseif($center == 0 && $product!=null)
-                <input type='submit' value='Retrieve Results' class='btn-primary btn small'>
+         
+            {{-- If the form was submitted, display refresh button --}}
+            @if($center != 'None' && $product != 'None')
+                <div class= 'refreshButton'>
+                    <button type='submit' class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-refresh"></span> 
+                    </button>
+                </div>
             @endif
 
-            <label for='product'>Product to Graph</label>
-            <select id='product' name='product'>
-                <option value='0'>Choose</option>
-                    <option value='All' {{ ($product == 'All') ? 'SELECTED' : '' }}>All</option>
-                    <option value='Loans' {{ ($product == 'Loans') ? 'SELECTED' : '' }}>Loans</option>
+            <label for='center'>Center:</label>
+            <select id='center' name='center'>
+                <!--option value='0'>Choose</option-->
+                <option value='All' {{ ($center == 'All') ? 'SELECTED' : '' }}>All</option>
+                @foreach($centersForDropdown as $center_id=>$name)    
+                    <option value='{{ $center_id }}' {{ ($center == $center_id) ? 'SELECTED' : '' }}>{{ $name }}</option>
+                @endforeach
             </select> 
+            <div id ='hideEmpty'>
+                <input type='checkbox' name='centerHideEmpty' {{ ($centerHideEmpty) ? 'CHECKED' : '' }} >
+                <label>show centers with data only</label>
+            </div>
+            
+            {{-- If the form was submitted, display center graph --}}
+            @if($center != 'None')
+                <div id="center-chart"></div>
+                <?=Lava::render('ColumnChart', 'Center Profit', 'center-chart')?>
+            @endif
+            
+            <label for='product'>Product:</label>
+            <select id='product' name='product'>
+                <option value='All' {{ ($product == 'All') ? 'SELECTED' : '' }}>All</option>
+                @foreach($productsForDropdown as $product_id=>$name)    
+                    <option value='{{ $product_id }}' {{ ($product == $product_id) ? 'SELECTED' : '' }}>{{ $name }}</option>
+                @endforeach
+            </select> 
+            <div id ='hideEmpty'>
+                <input type='checkbox' name='productHideEmpty' {{ ($productHideEmpty) ? 'CHECKED' : '' }} >
+                <label>show products with data only</label>
+            </div>
 
-            @if($product == 'All')
-                <button type='submit' class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-refresh"></span> 
-                </button>
+            {{-- If the form was submitted, display product graph --}}
+            @if($product != 'None')
                 <div id="product-chart"></div>
                 <?=Lava::render('ColumnChart', 'Product Profit', 'product-chart')?>
             @endif
             
-            <input type='submit' value='Retrieve Results' class='btn-primary btn small'>            
+            @if($center == 'None' && $product == 'None')
+                <input type='submit' value='Retrieve Results' class='btn-primary btn small'>
+            @endif         
         </form>
     </div>
 @endsection

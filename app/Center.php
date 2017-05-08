@@ -31,7 +31,7 @@ class Center extends Model
     }
 
 	# sum data for each center
-	public static function getProfitAllCenters(){
+	public static function getProfitAllCenters($hideEmpty){
 		$centers = Center::with('products')->get();
 		$center_profit = [];
 
@@ -50,9 +50,22 @@ class Center extends Model
 				$non_interest_income += $product['pivot']->non_interest_income;
 				$non_interest_expense += $product['pivot']->non_interest_expense;
 				$fee_income += $product['pivot']->fee_income;
+				
+				if($hideEmpty == 'on'){
+					$center_profit[$center['id']] = [
+						'name' => $center['name'],
+						'Balance' => $balance, 
+						'IntInc' => $interest_income,
+						'IntExp' => $interest_expense,
+						'NII' => $non_interest_income,
+						'NIE' => $non_interest_expense,
+						'FeeInc' => $fee_income
+					];
+				}
 			}
-			// if put inside the product for each, it excludes center without a row in the pivot
-			$center_profit[$center['id']] = [
+			
+			if($hideEmpty != 'on'){
+				$center_profit[$center['id']] = [
 					'name' => $center['name'],
 					'Balance' => $balance, 
 					'IntInc' => $interest_income,
@@ -61,8 +74,8 @@ class Center extends Model
 					'NIE' => $non_interest_expense,
 					'FeeInc' => $fee_income
 					];
+			}
 		}
-		//dump($center_profit);
 		return $center_profit;	
 	}
 
