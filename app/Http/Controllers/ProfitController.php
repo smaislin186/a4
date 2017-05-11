@@ -91,19 +91,9 @@ class ProfitController extends Controller
     }
 
     public function showIncomeData(Request $request){
-
-        $centersForDropdown = Center::getCentersForDropdown();
-        $productsForDropdown = Product::getProductsForDropdown();
-
         $centers = Center::with('products')->get();
-        // dump($centers);
         //dump($centers->toArray());
-     
-        $product = Product::all();
-      
         return view('profitpoint.inputData.showIncomeData')->with([
-            'centerTypesForDropdown' => $centersForDropdown,
-            'productsForDropdown' => $productsForDropdown,
             'centers' => $centers,
         ]);
     }
@@ -154,12 +144,48 @@ class ProfitController extends Controller
     public function editIncomeData($cid, $pid){
         dump($cid);
         dump($pid);
-        $center = Center::find($cid)->with('products')->get();
-        dump($center->toArray());    
-        
-        # Return the view
-        return view('profitpoint.dimensions.editCenter')->with([
-           'center' => $center,
+        //validate that get a record?
+        $center_raw = Center::where('id', '=', $cid)->with('products')->get();
+        $product_raw = Product::where('id', '=', $pid)->get();
+        $balance = 0;
+        $intinc = 0;
+        $intexp = 0;
+        $nii = 0;
+        $nie = 0;
+        $feeinc = 0;
+
+        # retrieve specific center_product row from pivot
+        foreach($center_raw as $center){
+            foreach($center->products as $product){
+                if($product->id == $pid){
+                    dump("$product->");
+                    $balance = $product->pivot->balance;
+                    $intinc = $product->pivot->interest_income;
+                    $intexp = $product->pivot->interest_expense;
+                    $nii = $product->pivot->non_interest_income;
+                    $nie = $product->pivot->non_interest_expense;
+                    $feeinc = $product->pivot->fee_income;
+                }
+            }       
+        }
+
+        $centersForDropdown = Center::getCentersForDropdown();
+        $productsForDropdown = Product::getProductsForDropdown();
+        dump($center);
+        //dump($product_raw);
+
+        # Return the view with the data to edit
+        return view('profitpoint.inputData.editIncomeData')->with([
+           'cid' => $cid,
+           'pid' => $pid,
+           'centersForDropdown' => $centersForDropdown,
+           'productsForDropdown' => $productsForDropdown,
+           'balance' => $balance,
+           'intinc' => $intinc,
+           'intexp' => $intexp,
+           'nii' => $nii,
+           'nie' => $nie,
+           'feeinc' => $feeinc,
         ]);
     }
 

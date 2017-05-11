@@ -45,7 +45,7 @@
             </select> 
             <div id ='hideEmpty'>
                 <input type='checkbox' name='centerHideEmpty' {{ ($centerHideEmpty) ? 'CHECKED' : '' }} >
-                <label>show centers with data only</label>
+                <label>only show centers with data</label>
             </div>
             
             {{-- If the form was submitted, display center graph --}}
@@ -63,7 +63,7 @@
             </select> 
             <div id ='hideEmpty'>
                 <input type='checkbox' name='productHideEmpty' {{ ($productHideEmpty) ? 'CHECKED' : '' }} >
-                <label>show products with data only</label>
+                <label>only show products with data</label>
             </div>
 
             {{-- If the form was submitted, display product graph --}}

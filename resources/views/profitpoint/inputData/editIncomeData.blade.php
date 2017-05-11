@@ -15,9 +15,12 @@
 
         <label for='type'>* Center Name</label>
         <select id='center_id' name='center_id'>
-            <option value='0'>Choose</option>
-                @foreach($centersForDropdown as $center_id => $name)
-                <option value='{{ $center_id }}'>
+            @foreach($centersForDropdown as $center_id => $name)
+                <option value='{{ $center_id }}'
+                    @if($center_id == $cid)
+                        selected
+                    @endif
+                    >
                     {{ $name }}
                 </option>
             @endforeach
@@ -25,31 +28,34 @@
 
         <label for='type'>* Product Name</label>
         <select id='product_id' name='product_id'>
-            <option value='0'>Choose</option>
-                @foreach($productsForDropdown as $product_id => $name)
-                <option value='{{ $product_id }}'>
+            @foreach($productsForDropdown as $product_id => $name)
+                <option value='{{ $product_id }}' 
+                    @if($product_id == $pid)
+                        selected
+                    @endif
+                    > 
                     {{ $name }}
                 </option>
             @endforeach
         </select> 
         <br>
         <label for='title'>Balance</label>
-        <input type='number' name='balance' id='balance' value='{{ old('Balance', '0') }}'>
+        <input type='number' name='balance' id='balance' value='{{ old('Balance', $balance) }}'>
         <br>
         <label for='title'>Interest Income</label>
-        <input type='number' name='intinc' id='intinc' value='{{ old('Interest Income', '0') }}'>
+        <input type='number' name='intinc' id='intinc' value='{{ old('Interest Income', $intinc) }}'>
 
         <label for='title'>Interest Expense</label>
-        <input type='number' name='intexp' id='intexp' value='{{ old('Interest Expense', '0') }}'>
+        <input type='number' name='intexp' id='intexp' value='{{ old('Interest Expense', $intexp) }}'>
         <br>
         <label for='title'>Non Interest Income</label>
-        <input type='number' name='nii' id='nii' value='{{ old('Non Interest Income', '0') }}'>
+        <input type='number' name='nii' id='nii' value='{{ old('Non Interest Income', $nii) }}'>
 
         <label for='title'>Non Interest Expense</label>
-        <input type='number' name='nie' id='nie' value='{{ old('Non Interest Expense', '0') }}'>
+        <input type='number' name='nie' id='nie' value='{{ old('Non Interest Expense', $nie) }}'>
         <br>
         <label for='title'>Fee Income</label>
-        <input type='number' name='feeinc' id='feeinc' value='{{ old('Fee Income', '0') }}'>
+        <input type='number' name='feeinc' id='feeinc' value='{{ old('Fee Income', $feeinc) }}'>
 
         <input class='btn btn-primary' type='submit' value='Save Data'>
     </form>
