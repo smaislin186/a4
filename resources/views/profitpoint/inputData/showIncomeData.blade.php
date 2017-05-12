@@ -42,7 +42,7 @@
                                 <td>{{ $product['pivot']->non_interest_expense }}</td>
                                 <td>{{ $product['pivot']->fee_income }}</td>
                                 <td><a href='/editIncomeData/C:{{$center->id}}P:{{$product['id']}}' class='dimAction'>Edit <i class='fa fa-pencil'></i></a>
-                                    <a href='/deleteIncomeData/{{ $center->id }}' class='dimAction'>Delete <i class='fa fa-pencil'></i></a>
+                                    <a href='/deleteIncomeData/C:{{$center->id}}P:{{$product['id']}}' class='dimAction'>Delete <i class='fa fa-pencil'></i></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -52,7 +52,6 @@
         </form>
         <form method ='GET' action='/addIncomeData'>
             <input type='submit' value='Add' class='btn-primary btn small'>
-            <a href='/addProduct' class='dimAction'>Add <i class='fa fa-pencil'></i></a>
         </form>
     </div>
 @endsection

@@ -232,7 +232,7 @@ class DimensionController extends Controller
     # GET 
     # /confirmDeleteProduct/{id} 
     public function confirmDeleteProduct($id) {
-        #Get the center attempting to delete
+        #Get the product attempting to delete
         $product = Product::find($id);
 
         if(!$product) {

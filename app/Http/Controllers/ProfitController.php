@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Center;
-use App\CenterType;
 use App\Product;
 use Lava;
 use Session;
@@ -218,6 +217,72 @@ class ProfitController extends Controller
 
         $center->products()->attach($product, $data);
         
+        return redirect('/showIncomeData');
+    }
+
+    # GET 
+    # /confirmDeleteIncomeData/{id} 
+    public function confirmDeleteIncomeData($cid, $pid) {
+        #Get the pivot row attempting to delete
+        $center_raw = Center::where('id', '=', $cid)->with('products')->get();
+        $product_raw = Product::where('id', '=', $pid)->get();
+        dump($center_raw);
+        dump($product_raw);
+
+        # verify specific center_product row from pivot exists
+        $exists = false;
+        foreach($center_raw as $center){
+            foreach($center->products as $product){
+                if($product->id == $pid){
+                    $exists = true;
+                }
+            }       
+        }
+
+        if(!$product_raw || !$center_raw || !$exists ) {
+            Session::flash('message', 'Record does not exist.');
+            return redirect('/showIncomeData');
+        }
+
+        return view('profitpoint.inputData.deleteIncomeData')->with([
+            'pid'=> $pid,
+            'cid'=> $cid,
+            'center_raw' => $center_raw,
+            'product_raw' => $product_raw,
+        ]);
+    }
+
+    # POST
+    # /deleteIncomeData
+    public function deleteIncomeData(Request $request) {
+        #Get the pivot row attempting to delete
+        dump($request->pid);
+        dump($request->cid);
+        $pid = $request->pid;
+        $cid = $request->cid;
+        $center = Center::find($cid);;
+        $center_product = Center::where('id', '=', $cid)->with('products')->get();
+        $product_raw = Product::where('id', '=', $pid)->get();
+        
+        # verify specific center_product row from pivot exists
+        $exists = false;
+        foreach($center_product as $center){
+            foreach($center->products as $product){
+                if($product->id == $pid){
+                    $exists = true;
+                    // delete the record from pivot table
+                    $center->products()->detach($pid);
+                }
+            }       
+        }
+
+        if(!$product || !$center || !$exists ) {
+            Session::flash('message', 'Record does not exist.');
+            return redirect('/showIncomeData');
+        }
+
+        # Finish
+        Session::flash('message', 'Record was deleted.');
         return redirect('/showIncomeData');
     }
 }

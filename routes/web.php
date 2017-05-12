@@ -51,7 +51,7 @@ Route::post('/addIncomeData', 'ProfitController@saveNewIncomeData');
 Route::get('/editIncomeData/C:{cid}P:{pid}', 'ProfitController@editIncomeData');
 Route::post('/editIncomeData', 'ProfitController@saveIncomeData');
 # /deleteIncomeInput
-Route::get('/deleteIncomeData/{id}', 'ProfitController@confirmDeleteIncomeData');
+Route::get('/deleteIncomeData/C:{cid}P:{pid}', 'ProfitController@confirmDeleteIncomeData');
 Route::post('/deleteIncomeData', 'ProfitController@deleteIncomeData');
 
 # /showRules
