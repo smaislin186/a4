@@ -133,7 +133,7 @@ class ProfitController extends Controller
             'fee_income' => $request-> feeinc
         ];
 
-        $center->products()->attach($product, $data);
+        $center->products()->sync([$product=>$data]);
         
         return redirect('/showIncomeData');
     }
@@ -221,13 +221,11 @@ class ProfitController extends Controller
     }
 
     # GET 
-    # /confirmDeleteIncomeData/{id} 
+    # /deleteIncomeData/C:{cid}P:{pid} 
     public function confirmDeleteIncomeData($cid, $pid) {
         #Get the pivot row attempting to delete
         $center_raw = Center::where('id', '=', $cid)->with('products')->get();
         $product_raw = Product::where('id', '=', $pid)->get();
-        dump($center_raw);
-        dump($product_raw);
 
         # verify specific center_product row from pivot exists
         $exists = false;
@@ -256,8 +254,6 @@ class ProfitController extends Controller
     # /deleteIncomeData
     public function deleteIncomeData(Request $request) {
         #Get the pivot row attempting to delete
-        dump($request->pid);
-        dump($request->cid);
         $pid = $request->pid;
         $cid = $request->cid;
         $center = Center::find($cid);;
