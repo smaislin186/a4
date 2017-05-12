@@ -68,15 +68,15 @@ label, legend {
     margin-bottom:0;
 }
 
-input[type=text], input[type=email], input[type=password], textarea, select {
+input[type=text],[type=number], textarea, select {
     display:block;
     width:100%;
     font-size:1.5rem;
     padding:3px;
-    font-family:Consolas, Courier, monospace;
+    font-family:Raleway, Courier, monospace;
 }
 
-input[type='checkbox'], input[type='radio'] {
+input[type='checkbox'] {
     display:inline;
 }
 

@@ -6,10 +6,7 @@
 
 @section('content')
     <div class="content">
-        <h2>Income Input</h2>
-        <div class="intro">
-        View Input data
-        </div>
+        <h2>Income and Expense Input Data</h2>
         <form method ='GET' action='/editProduct'>
             <table class="table table-hover">
                 <thead>

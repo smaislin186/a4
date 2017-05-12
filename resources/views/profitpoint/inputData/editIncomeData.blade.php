@@ -7,7 +7,7 @@
 @section('content')
 
 <h1>Edit Input Data</h1>
-
+<div class="content">
     <form method='POST' action='/addIncomeData' class="colform">
         {{ csrf_field() }}
 
@@ -68,5 +68,5 @@
             <input class='btn btn-primary' type='submit' value='Save Changes'>
         </p>
     </form>
-
+</div>
 @endsection

@@ -9,6 +9,15 @@
         <h2>Edit Center</h2>
         <form method ='POST' action='/editCenter' class="colform">
             {{ csrf_field() }}
+            @if(count($errors) > 0)
+            <div class='alert alert-danger error'>
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             
             <div class="required">* Required fields</div>
             

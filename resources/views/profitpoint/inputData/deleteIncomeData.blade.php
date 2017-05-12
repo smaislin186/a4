@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-
-    <h1>Confirm deletion</h1>
+<div class="content">
+    <h2>Confirm deletion</h2>
     <form method='POST' action='/deleteIncomeData'>
 
         {{ csrf_field() }}
@@ -21,5 +21,5 @@
         <input type='submit' value='Yes, delete this income data.' class='btn btn-danger'>
 
     </form>
-
+</div>
 @endsection

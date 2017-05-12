@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-
-    <h1>Confirm Product Deletion</h1>
+<div class = "content">
+    <h2>Confirm Product Deletion</h2>
     <form method='POST' action='/deleteProduct'>
 
         {{ csrf_field() }}
@@ -19,5 +19,5 @@
         <input type='submit' value='Yes, delete this product.' class='btn btn-danger'>
 
     </form>
-
+</div>
 @endsection
