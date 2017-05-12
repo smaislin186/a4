@@ -89,13 +89,15 @@ class ProfitController extends Controller
         ]);
     }
 
+    # GET
+    # /showIncomeInput
     public function showIncomeData(Request $request){
         $centers = Center::with('products')->get();
-        //dump($centers->toArray());
         return view('profitpoint.inputData.showIncomeData')->with([
             'centers' => $centers,
         ]);
     }
+
     # GET
     # /addIncomeData
     public function addIncomeData(){
@@ -106,6 +108,7 @@ class ProfitController extends Controller
             'productsForDropdown' => $productsForDropdown,
         ]);
     }
+
     # POST
     # /addIncomeData
     public function saveNewIncomeData(Request $request){
@@ -141,8 +144,6 @@ class ProfitController extends Controller
     # GET
     # /editIncomeData
     public function editIncomeData($cid, $pid){
-        dump($cid);
-        dump($pid);
         //validate that get a record?
         $center_raw = Center::where('id', '=', $cid)->with('products')->get();
         $product_raw = Product::where('id', '=', $pid)->get();
@@ -157,7 +158,6 @@ class ProfitController extends Controller
         foreach($center_raw as $center){
             foreach($center->products as $product){
                 if($product->id == $pid){
-                    dump("$product->");
                     $balance = $product->pivot->balance;
                     $intinc = $product->pivot->interest_income;
                     $intexp = $product->pivot->interest_expense;
@@ -170,8 +170,6 @@ class ProfitController extends Controller
 
         $centersForDropdown = Center::getCentersForDropdown();
         $productsForDropdown = Product::getProductsForDropdown();
-        dump($center);
-        //dump($product_raw);
 
         # Return the view with the data to edit
         return view('profitpoint.inputData.editIncomeData')->with([

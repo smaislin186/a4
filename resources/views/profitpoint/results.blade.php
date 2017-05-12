@@ -35,18 +35,19 @@
                 </div>
             @endif
 
-            <label for='center'>Center:</label>
-            <select id='center' name='center'>
-                <!--option value='0'>Choose</option-->
-                <option value='All' {{ ($center == 'All') ? 'SELECTED' : '' }}>All</option>
-                @foreach($centersForDropdown as $center_id=>$name)    
-                    <option value='{{ $center_id }}' {{ ($center == $center_id) ? 'SELECTED' : '' }}>{{ $name }}</option>
-                @endforeach
-            </select> 
-            <div id ='hideEmpty'>
+            <p>
+                <label for='center'>Center:</label>
+                <select id='center' name='center'>
+                    <option value='All' {{ ($center == 'All') ? 'SELECTED' : '' }}>All</option>
+                    @foreach($centersForDropdown as $center_id=>$name)    
+                        <option value='{{ $center_id }}' {{ ($center == $center_id) ? 'SELECTED' : '' }}>{{ $name }}</option>
+                    @endforeach
+                </select> 
+            </p>
+            <p>
                 <input type='checkbox' name='centerHideEmpty' {{ ($centerHideEmpty) ? 'CHECKED' : '' }} >
                 <label>only show centers with data</label>
-            </div>
+            </p>
             
             {{-- If the form was submitted, display center graph --}}
             @if($center != 'None')
@@ -54,17 +55,19 @@
                 <?=Lava::render('ColumnChart', 'Center Profit', 'center-chart')?>
             @endif
             
-            <label for='product'>Product:</label>
-            <select id='product' name='product'>
-                <option value='All' {{ ($product == 'All') ? 'SELECTED' : '' }}>All</option>
-                @foreach($productsForDropdown as $product_id=>$name)    
-                    <option value='{{ $product_id }}' {{ ($product == $product_id) ? 'SELECTED' : '' }}>{{ $name }}</option>
-                @endforeach
-            </select> 
-            <div id ='hideEmpty'>
+            <p>
+                <label for='product'>Product:</label>
+                <select id='product' name='product'>
+                    <option value='All' {{ ($product == 'All') ? 'SELECTED' : '' }}>All</option>
+                    @foreach($productsForDropdown as $product_id=>$name)    
+                        <option value='{{ $product_id }}' {{ ($product == $product_id) ? 'SELECTED' : '' }}>{{ $name }}</option>
+                    @endforeach
+                </select>
+            </p>
+            <p> 
                 <input type='checkbox' name='productHideEmpty' {{ ($productHideEmpty) ? 'CHECKED' : '' }} >
                 <label>only show products with data</label>
-            </div>
+            </p>
 
             {{-- If the form was submitted, display product graph --}}
             @if($product != 'None')
@@ -73,7 +76,9 @@
             @endif
             
             @if($center == 'None' && $product == 'None')
-                <input type='submit' value='Retrieve Results' class='btn-primary btn small'>
+                <p>
+                    <input type='submit' value='Retrieve Results' class='btn-primary btn small'>
+                </p>
             @endif         
         </form>
     </div>

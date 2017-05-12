@@ -11,7 +11,7 @@
         View Input data
         </div>
         <form method ='GET' action='/editProduct'>
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Center Code</th>
@@ -41,8 +41,8 @@
                                 <td>{{ $product['pivot']->non_interest_income }}</td>
                                 <td>{{ $product['pivot']->non_interest_expense }}</td>
                                 <td>{{ $product['pivot']->fee_income }}</td>
-                                <td><a href='/editIncomeData/C:{{$center->id}}P:{{$product['id']}}' class='dimAction'>Edit <i class='fa fa-pencil'></i></a>
-                                    <a href='/deleteIncomeData/C:{{$center->id}}P:{{$product['id']}}' class='dimAction'>Delete <i class='fa fa-pencil'></i></a>
+                                <td><a href='/editIncomeData/C:{{$center->id}}P:{{$product['id']}}' class="glyphicon glyphicon-pencil"></a>
+                                    <a href='/deleteIncomeData/C:{{$center->id}}P:{{$product['id']}}' class="glyphicon glyphicon-trash"></a>
                                 </td>
                             </tr>
                         </tbody>
