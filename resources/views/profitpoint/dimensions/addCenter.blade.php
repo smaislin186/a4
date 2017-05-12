@@ -41,16 +41,6 @@
                     @endforeach
                 </select>  
             </p>
-
-            @if(count($errors) > 0)
-                <div class='alert alert-danger error'>
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             
             <p>
             <input class='btn btn-primary' type='submit' value='Add Center'>
