@@ -143,7 +143,7 @@ class ProfitController extends Controller
     # GET
     # /editIncomeData
     public function editIncomeData($cid, $pid){
-        //validate that get a record?
+
         $center_raw = Center::where('id', '=', $cid)->with('products')->get();
         $product_raw = Product::where('id', '=', $pid)->get();
         $balance = 0;
@@ -188,7 +188,6 @@ class ProfitController extends Controller
     # POST
     # /editIncomeData
     public function saveIncomeData(Request $request){
-        $messages = [];
         $this->validate($request, [
             'center_id' => 'required',
             'product_id' => 'required',
@@ -198,7 +197,7 @@ class ProfitController extends Controller
             'nii' => 'required|numeric',
             'nie' => 'required|numeric',
             'feeinc' => 'required|numeric',
-        ], $messages);
+        ]);
         
         $center = Center::find($request->center_id);
         $product= $request->product_id;

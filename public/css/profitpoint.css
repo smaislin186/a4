@@ -46,7 +46,6 @@ section {
     text-transform: uppercase;
 }
 
-/* Flash messages shown at the top of the page */
 .message {
     width:100%;
     position:fixed;

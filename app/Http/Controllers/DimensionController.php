@@ -55,7 +55,6 @@ class DimensionController extends Controller
             $center->code = $code;
         }
         else{
-            // add custom validation to errors to catch dup??
             Session::flash('message', 'Center with Code:'.$code .' already exists');
             $errors = 'Center Code '.$code.' already exists';
             return redirect('/addCenter');
@@ -75,7 +74,6 @@ class DimensionController extends Controller
     # GET 
     # /editCenter/{id}   
     public function editCenter($id) {
-        //dump($id);
         $center = Center::find($id);
         $centerTypesForDropdown = CenterType::getCenterTypesForDropdown();
         # Return the view
@@ -88,17 +86,8 @@ class DimensionController extends Controller
     # POST
     # /editCenter
     public function saveCenter(Request $request) {
-        # Custom error message
-        // $messages = [
-        //     'author_id.not_in' => 'Author not selected.',
-        // ];
-        // $this->validate($request, [
-        //     'title' => 'required|min:3',
-        //     'published' => 'required|numeric',
-        //     'author_id' => 'not_in:0'
-        // ], $messages);
         $center = Center::find($request->id);
-        # Edit book in the database
+
         $center->code = $request->code;
         $center->name = $request->name;
         $center->center_type_id = $request->center_type_id;
@@ -179,7 +168,6 @@ class DimensionController extends Controller
             $product->code = $code;
         }
         else{
-            // add custom validation to errors to catch dup??
             Session::flash('message', 'Product Code:'.$code.' already exists');
             $errors = 'Product Code '.$code.' already exists';
             return redirect('/addProduct');
@@ -210,17 +198,9 @@ class DimensionController extends Controller
     # POST
     # /editProduct
     public function saveProduct(Request $request) {
-        # Custom error message
-        // $messages = [
-        //     'author_id.not_in' => 'Author not selected.',
-        // ];
-        // $this->validate($request, [
-        //     'title' => 'required|min:3',
-        //     'published' => 'required|numeric',
-        //     'author_id' => 'not_in:0'
-        // ], $messages);
+
         $product = Product::find($request->id);
-        # Edit book in the database
+
         $product->code = $request->code;
         $product->name = $request->name;
 

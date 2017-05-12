@@ -83,7 +83,6 @@ class Center extends Model
     public static function getProfitOneCenter($id){
 		$centers = Center::where('id', $id)->with('products')->get();
 		$center_profit = [];
-        //dump($centers->toArray());
         $centerArray = $centers->toArray();
         $balance = 0;
         $interest_income = 0;
@@ -111,7 +110,6 @@ class Center extends Model
                 'FeeInc' => $fee_income
                 ];
 		
-		//dump($center_profit);
 		return $center_profit;	
 	}
 

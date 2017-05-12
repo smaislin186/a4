@@ -78,7 +78,6 @@ class Product extends Model
     public static function getProfitOneProduct($id){
 		$products = Product::where('id', $id)->with('centers')->get();
 		$product_profit = [];
-        //dump($products->toArray());
         $productArray = $products->toArray();
         $balance = 0;
         $interest_income = 0;
@@ -106,7 +105,6 @@ class Product extends Model
                 'FeeInc' => $fee_income
                 ];
 
-		//dump($product_profit);
 		return $product_profit;	
 	}
 
